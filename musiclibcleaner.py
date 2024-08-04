@@ -171,8 +171,6 @@ def scan_media_info(library_path, media_files):
 
 
 def scan_album_covers(media_files, media_info):
-    global library_path
-
     info('Checking for front album cover...')
     for media_file in tqdm(media_files):
         media_info_item = media_info[media_file]
@@ -192,8 +190,6 @@ def scan_album_covers(media_files, media_info):
 
 
 def scan_erroneous_tags(media_files, media_info):
-    global library_path
-
     info('Checking for erroneous tags...')
     for media_file in tqdm(media_files):
         media_info_item = media_info[media_file]
