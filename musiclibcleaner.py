@@ -14,7 +14,7 @@ logging.basicConfig(
     format='(%(asctime)s) [%(name)s:%(levelname)s] [%(module)s:%(lineno)d] %(message)s',
     datefmt='%m/%d/%Y %I:%M:%S %p',
     handlers=[
-        logging.FileHandler('musiclibcleaner.log'),
+        logging.FileHandler('musiclibcleaner.log', 'w', encoding='utf-8'),
         logging.StreamHandler()
     ],
     encoding='utf-8'
