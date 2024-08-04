@@ -4,9 +4,13 @@ import os
 import taglib
 import json
 import re
+import warnings
 from eyed3.plugins.art import ArtFile
 from logging import info, warn, error, debug
 from pathlib import Path
+
+'''HACK: I really don\'t care about possible nested sets. Regex is complicated enough without having to deal with writing compliant and clear expressions.'''
+warnings.filterwarnings('ignore', category=FutureWarning)
 
 
 logging.basicConfig(
@@ -64,7 +68,7 @@ def scan_library(library_path):
 def determine_erroneous_track_num(media_file_name, media_info_item):
     debug(f'Checking "{media_file_name}" for erroneous track number tag...')
     
-    clean = media_info_item['tags']['TRACKNUMBER'] is not None and isinstance(media_info_item['tags']['TRACKNUMBER'], str) and re.match('^[[1-9][0-9]{0,2}|100]|\/[[[1-9][0-9]{0,2}|100]]$', media_info_item['tags']['TRACKNUMBER'])
+    clean = media_info_item['tags']['TRACKNUMBER'] is not None and isinstance(media_info_item['tags']['TRACKNUMBER'], str) and re.match('^[[1-9][0-9]{0,2}|100]|/[[[1-9][0-9]{0,2}|100]]$', media_info_item['tags']['TRACKNUMBER'])
     
     debug(f'"{media_file_name}" track number is "{media_info_item["tags"]["TRACKNUMBER"]}" - {"PASSED" if clean else "FAILED"}')
     
@@ -74,7 +78,7 @@ def determine_erroneous_track_num(media_file_name, media_info_item):
 def determine_erroneous_disc_num(media_file_name, media_info_item):
     debug(f'Checking "{media_file_name}" for erroneous disc number tag...')
     
-    clean = media_info_item['tags']['DISCNUMBER'] is None or (isinstance(media_info_item['tags']['DISCNUMBER'], str) and (re.match('^[[1-9][0-9]{0,2}|100]|\/[[[1-9][0-9]{0,2}|100]]$', media_info_item['tags']['DISCNUMBER']) or media_info_item['tags']['DISCNUMBER'] == ''))
+    clean = media_info_item['tags']['DISCNUMBER'] is None or (isinstance(media_info_item['tags']['DISCNUMBER'], str) and (re.match('^[[1-9][0-9]{0,2}|100]|/[[[1-9][0-9]{0,2}|100]]$', media_info_item['tags']['DISCNUMBER']) or media_info_item['tags']['DISCNUMBER'] == ''))
     
     debug(f'"{media_file_name}" disc number is "{media_info_item["tags"]["DISCNUMBER"]}" - {"PASSED" if clean else "FAILED"}')
     
