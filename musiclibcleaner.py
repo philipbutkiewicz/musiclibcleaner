@@ -258,3 +258,6 @@ if len(media_info):
     html = dict_list_to_html([ media_info[key] for key in media_info if len(media_info[key]['erroneous_tags']) or (not media_info[key]['has_cover'] and not args.get('skip_album_covers')) or media_info[key]['errored'] ])
     with open(os.path.join(output_path, 'report.html'), 'w', encoding='utf-8') as hf:
         hf.write(html)
+    
+    with open(os.path.join(output_path, 'report.json'), 'w', encoding='utf-8') as jf:
+        jf.write(json.dumps(media_info))
