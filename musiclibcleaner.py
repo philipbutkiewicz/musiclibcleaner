@@ -5,6 +5,7 @@ import taglib
 import json
 import re
 import warnings
+from tqdm import tqdm
 from eyed3.plugins.art import ArtFile
 from logging import info, warn, error, debug
 from pathlib import Path
@@ -100,15 +101,15 @@ def scan_media_info(library_path, media_files):
 
     cache_path = os.path.join(library_path, 'info.mlc')
     if os.path.exists(cache_path):
-        debug(f'Loading media info from cache in "{cache_path}"...')
+        info(f'Loading media info from cache in "{cache_path}"...')
         with open(cache_path, 'r', encoding='utf-8') as cf:
             media_info = json.loads(cf.read())
     else:
-        debug(f'Scanning for media info in "{library_path}", grab a coffee...')
+        info(f'Scanning for media info in "{library_path}", grab a coffee...')
         index = 0
-        for media_file in media_files:
+        for media_file in tqdm(media_files):
             index += 1
-            info(f'({index} / {len(media_files)}) Scanning for media info in "{media_file}"...')
+            debug(f'({index} / {len(media_files)}) Scanning for media info in "{media_file}"...')
             try:
                 with taglib.File(media_file, save_on_exit=False) as file_info:
                     if not file_info:
